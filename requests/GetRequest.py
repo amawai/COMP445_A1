@@ -3,13 +3,13 @@ from urllib.parse import urlsplit
 
 class GetRequest:
     def __init__(self, url, port, headers=[], verbose=False):
+        super().__init__()
         self.url = url
         self.port = port
         self.headers = headers
         self.verbose = verbose
-        self.connection = None
     
-    def execute_get(self):
+    def execute(self):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         url_splitted = urlsplit(self.url)
         host = url_splitted.netloc
@@ -44,4 +44,4 @@ class GetRequest:
         if (self.verbose) :
             print(response[response.find("\r\n\r\n") + 1:])
         else:
-            print(response)
+            print(response) 
