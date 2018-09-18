@@ -10,6 +10,8 @@ def run_client(url, port):
     host = url_splitted.netloc
     path = url_splitted.path
     query = url_splitted.query
+    query = "" if not query else "?" + query
+
     request = "GET " + path + query + " HTTP/1.0\r\nHost: " + host + "\r\n\r\n"
     request_in_bytes = request.encode()
     try:
