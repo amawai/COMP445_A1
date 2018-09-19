@@ -1,5 +1,5 @@
 import argparse 
-from httpc import HttpcClient
+from httpchelper import HttpcClient
 
 def is_key_value_pair(s):
     key_value_pair = s.split(":")
