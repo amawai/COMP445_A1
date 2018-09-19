@@ -42,6 +42,6 @@ class GetRequest:
             response += result.decode("utf-8")
             result = self.connection.recv(10000)
         if (self.verbose) :
-            print(response[response.find("\r\n\r\n") + 1:])
-        else:
             print(response) 
+        else:
+            print(response[response.find("\r\n\r\n") + 1:])
