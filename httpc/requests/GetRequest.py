@@ -3,7 +3,6 @@ from urllib.parse import urlsplit
 
 class GetRequest:
     def __init__(self, url, port, headers=[], verbose=False):
-        super().__init__()
         self.url = url
         self.port = port
         self.headers = headers
