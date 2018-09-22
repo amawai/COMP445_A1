@@ -1,4 +1,5 @@
 from requests import GetRequest
+from requests import PostRequest
 
 class HttpcClient:
     @staticmethod
@@ -18,10 +19,14 @@ class HttpcClient:
         verbose = False
         if (args.verbose):
             verbose = True
+
         data = args.data
         file = args.file
+
         if (bool(data) != bool(file)):
             print('Sending post request')
+            post_request = PostRequest(url, 80, data, file, headers, verbose)
+            post_request.execute()
         else:
             raise ValueError("For POST request, use either -f or -d")
         pass
