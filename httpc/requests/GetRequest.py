@@ -1,12 +1,10 @@
 import socket
 from urllib.parse import urlsplit 
+from .Request import Request
 
-class GetRequest:
+class GetRequest(Request):
     def __init__(self, url, port, headers=[], verbose=False):
-        self.url = url
-        self.port = port
-        self.headers = headers
-        self.verbose = verbose
+        super().__init__(url, port, headers, verbose)
     
     def execute(self):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -30,17 +28,3 @@ class GetRequest:
             request += "\r\n" + header
         request += "\r\n\r\n"
         return request
-
-    def send_request(self, request):
-        self.connection.sendall(request.encode())
-        return self.connection.recv(10000)
-
-    def process_response(self, result):
-        response = ""
-        while (len(result) > 0):
-            response += result.decode("utf-8")
-            result = self.connection.recv(10000)
-        if (self.verbose) :
-            print(response) 
-        else:
-            print(response[response.find("\r\n\r\n") + 1:])
