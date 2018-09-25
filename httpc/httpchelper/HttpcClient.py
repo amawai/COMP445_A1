@@ -24,7 +24,6 @@ class HttpcClient:
         file = args.file
 
         if (bool(data) != bool(file)):
-            print('Sending post request')
             post_request = PostRequest(url, 80, data, file, headers, verbose)
             post_request.execute()
         else:
