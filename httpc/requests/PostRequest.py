@@ -1,13 +1,11 @@
 import socket
 from urllib.parse import urlsplit
 import mimetypes
+from .Request import Request
 
-class PostRequest:
+class PostRequest(Request):
     def __init__(self, url, port, data, file, headers=[], verbose=False):
-        self.url = url
-        self.port = port
-        self.headers = headers
-        self.verbose = verbose
+        super().__init__(url, port, headers, verbose)
         self.data = data
         self.file = file
 
@@ -43,17 +41,3 @@ class PostRequest:
             request += "\r\n\r\n" + f_data
         request += "\r\n\r\n"
         return request
-
-    def send_request(self, request):
-        self.connection.sendall(request.encode())
-        return self.connection.recv(10000)
-
-    def process_response(self, result):
-        response = ""
-        while (len(result) > 0):
-            response += result.decode("utf-8")
-            result = self.connection.recv(10000)
-        if (self.verbose):
-            print(response)
-        else:
-            print(response[response.find("\r\n\r\n") + 1:])
