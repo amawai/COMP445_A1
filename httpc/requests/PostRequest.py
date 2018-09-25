@@ -1,5 +1,6 @@
 import socket
 from urllib.parse import urlsplit
+import mimetypes
 
 class PostRequest:
     def __init__(self, url, port, data, file, headers=[], verbose=False):
@@ -31,13 +32,15 @@ class PostRequest:
         for header in self.headers:
             request += "\r\n" + header
         if self.data is not None:
-            for inline_data in self.data:
-                request += "\r\n" + inline_data
+            request += "\r\nContent-Length: " + str(len(self.data))
+            request += "\r\n\r\n" + self.data
         elif self.file is not None:
             f = open(self.file, 'r')
-            f_data = file.read()
+            f_data = f.read()
             f.close()
-            request += "\r\n" + f_data
+            request += "\r\nContent-Type:" + mimetypes.guess_type(self.file)[0]
+            request += "\r\nContent-Length: " + str(len(f_data))
+            request += "\r\n\r\n" + f_data
         request += "\r\n\r\n"
         return request
 
