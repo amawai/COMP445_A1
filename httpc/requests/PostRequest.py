@@ -36,7 +36,7 @@ class PostRequest(Request):
             f = open(self.file, 'r')
             f_data = f.read()
             f.close()
-            request += "\r\nContent-Type:" + mimetypes.guess_type(self.file)[0]
+            request += "\r\nContent-Type:" + mimetypes.guess_type(self.file)[0] or "application/json"
             request += "\r\nContent-Length: " + str(len(f_data))
             request += "\r\n\r\n" + f_data
         request += "\r\n\r\n"
