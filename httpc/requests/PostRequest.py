@@ -9,7 +9,7 @@ class PostRequest(Request):
         self.data = data
         self.file = file
 
-    def execute(self):
+    def execute(self, redirected=0):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         url_splitted = urlsplit(self.url)
         host = url_splitted.netloc
@@ -23,8 +23,18 @@ class PostRequest(Request):
          try:
             self.connection.connect((host, self.port))
             result = self.send_request(request)
+<<<<<<< HEAD
             self.process_response(result)
          finally:
+=======
+            redirection = self.process_response(result)
+            if (redirection):
+                if (redirected < 5):
+                    self.execute(redirected + 1)
+                else:
+                    print("Too many redirections, operation aborted")
+        finally:
+>>>>>>> 1a4658c2a48b3c0203a1379b0e1bfc98084e490b
             self.connection.close()
         elif("-o" in request):
             try:
