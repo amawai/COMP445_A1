@@ -70,6 +70,7 @@ Use "httpc help [command]" for more information about a command.''')
         parser.add_argument("-h", "--header", help="HTTP headers in key:value format ", action='append', type=self.is_key_value_pair)
         parser.add_argument("-d", "--data", help="Associate body of HTTP request with inline data", default=None)
         parser.add_argument("-f", "--file", help="Associate body of HTTP request with data from given file ", default=None)
+       # parser.add_argument("-o", "--filename", help="write the body of the response to a file instead of the console ")
         parser.add_argument("URL", nargs='?', help="The url determining the targetted HTTP server")
         args = parser.parse_args(sys.argv[2:])
 

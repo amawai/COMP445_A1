@@ -18,12 +18,21 @@ class PostRequest(Request):
         query = "" if not query else "?" + query
 
         request = self.create_request(path, query, host)
-        try:
+        if("-o" not in request):
+
+         try:
             self.connection.connect((host, self.port))
             result = self.send_request(request)
             self.process_response(result)
-        finally:
+         finally:
             self.connection.close()
+        elif("-o" in request):
+            try:
+                self.connection.connect((host, self.port))
+                result = self.send_request(request)
+                self.process_response_write_in_file(result)
+            finally:
+                self.connection.close()
 
     def create_request(self, path, query, host):
         request = "POST " + path + query + " HTTP/1.0\r\nHost: " + host
