@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from urllib.parse import urlsplit
 import re
+import socket
 
 class Request(ABC):
     def __init__(self, url, port, write_file, headers=[], verbose=False):
@@ -11,8 +13,28 @@ class Request(ABC):
         self.write_file = write_file
 
     @abstractmethod
+    def create_request(self, path, query, host):
+        return
+
     def execute(self, redirected=0):
-        pass
+        self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        url_splitted = urlsplit(self.url)
+        host = url_splitted.netloc
+        path = url_splitted.path
+        query = url_splitted.query
+        query = "" if not query else "?" + query
+        request = self.create_request(path, query, host)
+        try:
+            self.connection.connect((host, self.port))
+            result = self.send_request(request)
+            redirection = self.process_response(result)
+            if (redirection):
+                if (redirected < 5):
+                    self.execute(redirected + 1)
+                else:
+                    print("Too many redirections, operation aborted")
+        finally:
+            self.connection.close()
 
     def send_request(self, request):
         self.connection.sendall(request.encode())
