@@ -39,7 +39,8 @@ Use "httpc help [command]" for more information about a command.''')
             '\nusage: httpc get [-v] [-h key:value] URL'
             '\n\nGet executes a HTTP GET request for a given URL.'
             '\n-v \t\tPrints the detail of the response such as protocol, status, and headers.'
-            '\n-h key:value \tAssociates headers to HTTP Request with the format: key:value')
+            '\n-h key:value \tAssociates headers to HTTP Request with the format: key:value'
+            '\n-o file \t\tOutputs GET response body to a provided file')
         elif (args.request == 'post'):
             print(
             'usage: httpc post [-v] [-h key:value] [-d inline-data] [-f file] URL'
@@ -48,6 +49,7 @@ Use "httpc help [command]" for more information about a command.''')
             '\n-h key:value \t\tAssociates headers to HTTP Request with the format key:value.'
             '\n-d string \t\tAssociates an inline data to the body HTTP POST request.'
             '\n-f file \t\tAssociates the content of a file to the body HTTP POST request.'
+            '\n-o file \t\tOutputs POST response body to a provided file'
             '\n\nEither [-d] or [-f] can be used but not both.')
 
 
