@@ -4,10 +4,11 @@ import mimetypes
 from .Request import Request
 
 class PostRequest(Request):
-    def __init__(self, url, port, data, file, headers=[], verbose=False):
-        super().__init__(url, port, headers, verbose)
+    def __init__(self, url, port, data, file, writefile, headers=[], verbose=False):
+        super().__init__(url, port, writefile, headers, verbose)
         self.data = data
         self.file = file
+        
 
     def execute(self, redirected=0):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,15 +19,9 @@ class PostRequest(Request):
         query = "" if not query else "?" + query
 
         request = self.create_request(path, query, host)
-        if("-o" not in request):
-
-         try:
+        try:
             self.connection.connect((host, self.port))
             result = self.send_request(request)
-<<<<<<< HEAD
-            self.process_response(result)
-         finally:
-=======
             redirection = self.process_response(result)
             if (redirection):
                 if (redirected < 5):
@@ -34,15 +29,8 @@ class PostRequest(Request):
                 else:
                     print("Too many redirections, operation aborted")
         finally:
->>>>>>> 1a4658c2a48b3c0203a1379b0e1bfc98084e490b
             self.connection.close()
-        elif("-o" in request):
-            try:
-                self.connection.connect((host, self.port))
-                result = self.send_request(request)
-                self.process_response_write_in_file(result)
-            finally:
-                self.connection.close()
+       
 
     def create_request(self, path, query, host):
         request = "POST " + path + query + " HTTP/1.0\r\nHost: " + host

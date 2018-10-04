@@ -3,8 +3,8 @@ from urllib.parse import urlsplit
 from .Request import Request
 
 class GetRequest(Request):
-    def __init__(self, url, port, headers=[], verbose=False):
-        super().__init__(url, port, headers, verbose)
+    def __init__(self, url, port, writefile, headers=[], verbose=False):
+        super().__init__(url, port, writefile, headers, verbose)
     
     def execute(self, redirected=0):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
