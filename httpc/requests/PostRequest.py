@@ -4,8 +4,8 @@ import mimetypes
 from .Request import Request
 
 class PostRequest(Request):
-    def __init__(self, url, port, data, file, writefile, headers=[], verbose=False):
-        super().__init__(url, port, writefile, headers, verbose)
+    def __init__(self, url, port, data, file, write_file, headers=[], verbose=False):
+        super().__init__(url, port, write_file, headers, verbose)
         self.data = data
         self.file = file
         
