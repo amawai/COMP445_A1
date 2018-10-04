@@ -4,10 +4,11 @@ import mimetypes
 from .Request import Request
 
 class PostRequest(Request):
-    def __init__(self, url, port, data, file, headers=[], verbose=False):
-        super().__init__(url, port, headers, verbose)
+    def __init__(self, url, port, data, file, write_file, headers=[], verbose=False):
+        super().__init__(url, port, write_file, headers, verbose)
         self.data = data
         self.file = file
+        
 
     def execute(self, redirected=0):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,6 +30,7 @@ class PostRequest(Request):
                     print("Too many redirections, operation aborted")
         finally:
             self.connection.close()
+       
 
     def create_request(self, path, query, host):
         request = "POST " + path + query + " HTTP/1.0\r\nHost: " + host

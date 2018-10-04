@@ -39,7 +39,8 @@ Use "httpc help [command]" for more information about a command.''')
             '\nusage: httpc get [-v] [-h key:value] URL'
             '\n\nGet executes a HTTP GET request for a given URL.'
             '\n-v \t\tPrints the detail of the response such as protocol, status, and headers.'
-            '\n-h key:value \tAssociates headers to HTTP Request with the format: key:value')
+            '\n-h key:value \tAssociates headers to HTTP Request with the format: key:value'
+            '\n-o file \t\tOutputs GET response body to a provided file')
         elif (args.request == 'post'):
             print(
             'usage: httpc post [-v] [-h key:value] [-d inline-data] [-f file] URL'
@@ -48,6 +49,7 @@ Use "httpc help [command]" for more information about a command.''')
             '\n-h key:value \t\tAssociates headers to HTTP Request with the format key:value.'
             '\n-d string \t\tAssociates an inline data to the body HTTP POST request.'
             '\n-f file \t\tAssociates the content of a file to the body HTTP POST request.'
+            '\n-o file \t\tOutputs POST response body to a provided file'
             '\n\nEither [-d] or [-f] can be used but not both.')
 
 
@@ -57,6 +59,7 @@ Use "httpc help [command]" for more information about a command.''')
             description='Parser for get requests')
         parser.add_argument("-v", "--verbose", help="verbose",  action="store_true")
         parser.add_argument("-h", "--header", help="HTTP headers in key:value format ", action='append', type=self.is_key_value_pair)
+        parser.add_argument("-o", "--writefile", help="write the body of the response to a file instead of the console ", default=None)
         parser.add_argument("URL", help="The url determining the targetted HTTP server")
         args = parser.parse_args(sys.argv[2:])
 
@@ -70,6 +73,7 @@ Use "httpc help [command]" for more information about a command.''')
         parser.add_argument("-h", "--header", help="HTTP headers in key:value format ", action='append', type=self.is_key_value_pair)
         parser.add_argument("-d", "--data", help="Associate body of HTTP request with inline data", default=None)
         parser.add_argument("-f", "--file", help="Associate body of HTTP request with data from given file ", default=None)
+        parser.add_argument("-o", "--writefile", help="write the body of the response to a file instead of the console ", default=None)
         parser.add_argument("URL", nargs='?', help="The url determining the targetted HTTP server")
         args = parser.parse_args(sys.argv[2:])
 

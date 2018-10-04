@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 import re
 
 class Request(ABC):
-    def __init__(self, url, port, headers=[], verbose=False):
+    def __init__(self, url, port, write_file, headers=[], verbose=False):
         self.url = url
         self.port = port
         self.headers = headers
         self.verbose = verbose
         self.connection = None
+        self.write_file = write_file
 
     @abstractmethod
     def execute(self, redirected=0):
@@ -41,7 +42,17 @@ class Request(ABC):
             print("Failed to find new url location")
 
     def display_response(self, response):
+        response_string = ""
         if (self.verbose):
-            print(response)
+            response_string = response
         else:
-            print(response[response.find("\r\n\r\n") + 1:])
+            response_string = response[response.find("\r\n\r\n") + 1:]
+        if self.write_file is not None:
+            f = open(self.write_file, "w")
+            f.write(response_string)
+            f.close()
+            print("The response is in the file " + self.write_file)
+        else:
+            print(response_string)
+
+    
