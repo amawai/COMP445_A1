@@ -20,12 +20,15 @@ class Request(ABC):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         url_splitted = urlsplit(self.url)
         host = url_splitted.netloc
+        port = self.port if ":" not in host else int(host[host.index(":") + 1:])
+        host = host if ":" not in url_splitted.netloc else host[0:host.index(":")]
         path = url_splitted.path
         query = url_splitted.query
         query = "" if not query else "?" + query
         request = self.create_request(path, query, host)
+
         try:
-            self.connection.connect((host, self.port))
+            self.connection.connect((host, port))
             result = self.send_request(request)
             redirection = self.process_response(result)
             if (redirection):
